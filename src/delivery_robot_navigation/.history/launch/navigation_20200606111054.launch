@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+
+<launch>
+
+  <param name="base_link" value="base_footprint"/>
+  <node pkg="tf" type="static_transform_publisher" name="map_to_odom" args="0.0 0.0 0.0 0 0 0.0 /map /base_link 1000"/>
+  <!-- Run the map server -->
+   <node name="map_server" pkg="map_server" type="map_server" args="$(find delivery_robot_navigation)/maps/map.yaml" output="screen"/>
+
+  <include file="$(find amcl)/examples/amcl_diff.launch" >
+  </include> 
+
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+    <param name="controller_frequency" value="10.0"/>
+    <param name="controller_patiente" value="15.0"/>
+    <rosparam file="$(find delivery_robot_navigation)/config/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find delivery_robot_navigation)/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find delivery_robot_navigation)/config/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find delivery_robot_navigation)/config/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find delivery_robot_navigation)/config/base_local_planner_params.yaml" command="load" />
+  </node>
+
+</launch>
+

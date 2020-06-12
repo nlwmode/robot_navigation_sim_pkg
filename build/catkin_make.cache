@@ -1,0 +1,2 @@
+delivery_robot_navigation:joystick_cmd:teleop_twist_keyboard_cpp
+-DCATKIN_DEVEL_PREFIX=/home/nlw/Workplaces/delivery_robot/devel -DCMAKE_INSTALL_PREFIX=/home/nlw/Workplaces/delivery_robot/install -G Unix Makefiles

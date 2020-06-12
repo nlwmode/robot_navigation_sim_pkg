@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+
+<launch>
+  <arg name="model" default="$(find delivery_robot_navigation)/urdf/rgbd.urdf" />
+
+  <param name="robot_description" textfile="$(arg model)" />
+
+  <arg name="paused" default="true"/>
+  <arg name="use_sim_time" default="true"/>
+  <arg name="use_gui" default="true"/>
+  <arg name="headless" default="false"/>
+  <arg name="debug" default="false"/>
+
+
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find delivery_robot_navigation)/gazebo/wall.world"/>
+    <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+    <arg name="debug" value="$(arg debug)" />
+    <arg name="gui" value="$(arg use_gui)" />
+    <arg name="paused" value="$(arg paused)"/>
+  </include>
+
+  <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+    args="-urdf -model robot -param robot_description -z 0.05"/> 
+  <node name="fake_joint_calibration" pkg="rostopic" type="rostopic" args="pub /calibrated std_msgs/Bool true" />
+
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find delivery_robot_navigation)/rviz/urdf.rviz"/>
+</launch>

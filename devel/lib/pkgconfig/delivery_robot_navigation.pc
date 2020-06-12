@@ -1,0 +1,8 @@
+prefix=/home/nlw/Workplaces/delivery_robot/devel
+
+Name: delivery_robot_navigation
+Description: Description of delivery_robot_navigation
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 
